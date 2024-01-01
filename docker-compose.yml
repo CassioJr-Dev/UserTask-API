@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  db:
+    build: .docker/postgres
+    container_name: apirest-db
+    restart: always
+    tty: true
+    ports:
+      - "5432:5432"
+    volumes:
+      - .docker/dbdata:/var/lib/postgres/dbdata
+    environment:
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_DB=apirest
