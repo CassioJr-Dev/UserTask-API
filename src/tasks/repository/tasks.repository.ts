@@ -5,7 +5,7 @@ import { TaskEntity } from "../entities/task.entity";
 import { UpdateTaskDto } from "../dto/update-task.dto";
 
 @Injectable()
-export class PostRepository {
+export class TasksRepository {
     constructor(private readonly prisma: PrismaService){}
 
     async create(createTaskDto:CreateTaskDto): Promise<TaskEntity> {
