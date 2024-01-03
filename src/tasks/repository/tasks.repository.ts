@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
 import { CreateTaskDto } from "../dto/create-task.dto";
 import { TaskEntity } from "../entities/task.entity";
@@ -26,16 +26,28 @@ export class TasksRepository {
     }
 
     async update(id: string, updateTaskDto: UpdateTaskDto): Promise<TaskEntity>{
-        return this.prisma.task.update({
-            where: { id },
-            data: updateTaskDto
-        })
+        try {
+
+            return await this.prisma.task.update({
+                where: { id },
+                data: updateTaskDto
+            })
+
+        }catch(error) {
+            throw new NotFoundException('Task not found!!!')
+        }
     }
 
     async remove(id: string){
-        return this.prisma.task.delete({
-            where: { id }
-        })
+        try{
+
+            return await this.prisma.task.delete({
+                where: { id }
+            })
+    
+        }catch(error) {
+            throw new NotFoundException('Task not found!!!');
+        }
     }
 
 
