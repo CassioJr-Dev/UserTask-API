@@ -1,5 +1,4 @@
 import { Task } from "@prisma/client";
-import { randomUUID as  uuidv4 } from "crypto";
 
 export class TaskEntity implements Task {
     id: string;
@@ -10,9 +9,4 @@ export class TaskEntity implements Task {
     updatedAt: Date;
     authorId: string;
 
-    constructor() {
-        if(!this.id){
-            this.id = uuidv4()
-        }
-    }
 }
