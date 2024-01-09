@@ -13,39 +13,54 @@ export class TasksService {
     ){}
 
   async create(createTaskDto: CreateTaskDto, headerAuthorization: string) {
-    const jwtExtractor = this.authService.jwtExtractor(headerAuthorization)
 
-    const extractUserId = this.authService.extrairIdDoUsuario(jwtExtractor)
-    
-    const userExists = this.repository.findUser(extractUserId)
-
-    if(!userExists) {
-      throw new UnauthorizedException('User not authorized!')
-    }
+    const extractUserId = await this.verifyExtractIDFromToken(headerAuthorization)
     
     return this.repository.create(createTaskDto, extractUserId);
   }
 
-  async findAll() {
-    return this.repository.findAll();
+  async findAll(headerAuthorization: string) {
+
+    const extractUserId = await this.verifyExtractIDFromToken(headerAuthorization)
+
+    return this.repository.findAll(extractUserId);
   }
 
-  async findOne(id: string) {
-    const taskId = await this.repository.findOne(id);
-    console.log(taskId)
+  async findOne(id: string, headerAuthorization: string) {
+    const extractUserId = await this.verifyExtractIDFromToken(headerAuthorization)
 
-    if (!taskId) {
-      throw new NotFoundException('task not found');
+    const task = await this.repository.findOne(id, extractUserId);
+
+    if (!task) {
+      throw new NotFoundException('Task not found!');
     }
 
-    return taskId;
+    return task;
   }
 
-  async update(id: string, updateTaskDto: UpdateTaskDto) {
-    return this.repository.update(id, updateTaskDto);
+  async update(id: string, updateTaskDto: UpdateTaskDto, headerAuthorization: string) {
+
+    const extractUserId = await this.verifyExtractIDFromToken(headerAuthorization)
+    return this.repository.update(id, updateTaskDto, extractUserId);
   }
 
-  async remove(id: string) {
-    return this.repository.remove(id);
-  }                                    
+  async remove(id: string, headerAuthorization: string) {
+
+    const extractUserId = await this.verifyExtractIDFromToken(headerAuthorization)
+    return this.repository.remove(id, extractUserId);
+  }
+  
+  private async verifyExtractIDFromToken(headerAuthorization: string) {
+    const jwtExtractor = this.authService.jwtExtractor(headerAuthorization)
+
+    const extractUserId = this.authService.extractUserIdFromToken(jwtExtractor)
+
+    const userExists = await this.repository.findUser(extractUserId)
+
+    if(!userExists) {
+      throw new UnauthorizedException('User not authorized!')
+    }
+
+    return extractUserId
+  }
 }

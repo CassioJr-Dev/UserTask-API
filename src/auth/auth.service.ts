@@ -1,9 +1,6 @@
 import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
-import { Request } from 'express';
-import { JwtPayload, sign } from 'jsonwebtoken';
+import { JsonWebTokenError, TokenExpiredError, sign, verify } from 'jsonwebtoken';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { UserEntity } from 'src/users/userEntity/user.entity';
-import * as jwt from 'jsonwebtoken'
 import { JwtPayLoad } from './models/jwt.payload.model';
 
 @Injectable()
@@ -20,7 +17,7 @@ export class AuthService {
         const authHeader = headerAuthorization
 
         if(!authHeader) {
-            throw new BadRequestException('Bad request')
+            throw new BadRequestException('JWT token missing from request!')
         }
 
         const [, token] = authHeader.split(' ')
@@ -28,9 +25,9 @@ export class AuthService {
         return token
     }
 
-    extrairIdDoUsuario(token: string): string | null {
+    public extractUserIdFromToken(token: string): string | null {
         try {
-            const decodedToken:JwtPayLoad = jwt.verify(token, process.env.JWT_SECRET) as JwtPayLoad;
+            const decodedToken:JwtPayLoad = verify(token, process.env.JWT_SECRET) as JwtPayLoad;
     
             // Recupera o ID do usuário do corpo (payload)
             const userId = decodedToken.userId;
@@ -38,10 +35,10 @@ export class AuthService {
             return userId;
 
         } catch (error) {
-            if (error instanceof jwt.TokenExpiredError) {
+            if (error instanceof TokenExpiredError) {
                 // Tratamento para token expirado, se necessário
                 throw new UnauthorizedException('Expired token!')
-            } else if (error instanceof jwt.JsonWebTokenError) {
+            } else if (error instanceof JsonWebTokenError) {
                 // Tratamento para token inválido, se necessário
                 throw new UnauthorizedException('Invalid token!')
             }

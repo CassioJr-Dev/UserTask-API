@@ -18,21 +18,29 @@ export class TasksRepository {
         )
     }
 
-    async findAll(): Promise<TaskEntity[]>{
-        return this.prisma.task.findMany()
-    }
-
-    async findOne(id: string): Promise<TaskEntity>{
-        return this.prisma.task.findUnique({
-            where: { id }
+    async findAll(authorId: string): Promise<TaskEntity[]>{
+        return this.prisma.task.findMany({
+            where: { authorId }
         })
     }
 
-    async update(id: string, updateTaskDto: UpdateTaskDto): Promise<TaskEntity>{
+    async findOne(id: string, authorId: string): Promise<TaskEntity>{
+        return this.prisma.task.findUnique({
+            where: {
+                id,
+                authorId
+            }
+        })
+    }
+
+    async update(id: string, updateTaskDto: UpdateTaskDto, authorId: string): Promise<TaskEntity>{
         try {
 
             return await this.prisma.task.update({
-                where: { id },
+                where: {
+                    id,
+                    authorId
+                },
                 data: updateTaskDto
             })
 
@@ -41,11 +49,14 @@ export class TasksRepository {
         }
     }
 
-    async remove(id: string){
+    async remove(id: string, authorId: string){
         try{
 
             return await this.prisma.task.delete({
-                where: { id }
+                where: {
+                    id,
+                    authorId
+                }
             })
     
         }catch(error) {
