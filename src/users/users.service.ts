@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersRepository } from './repository/users.repository';
@@ -49,23 +49,37 @@ export class UsersService {
     return userExists
   }
 
-  async update(id: string, updateUserDto: UpdateUserDto): Promise<UserEntity> {
-    const userExists = await this.repository.findOne(id)
+  async update(headerAuthorization: string, { name, email, password }: UpdateUserDto): Promise<UserEntity> {
 
-    if(!userExists) {
-      throw new NotFoundException('User not found!')
-    }
+    const extractUserId = await this.verifyExtractIDFromToken(headerAuthorization)
 
-    return this.repository.update(id, updateUserDto);
+    const hashedPassword = await hash(password, 10)
+
+    return this.repository.update(extractUserId, {
+      name,
+      email,
+      password: hashedPassword
+    });
   }
 
-  async remove(id: string): Promise<UserEntity> {
-    const userExists = await this.repository.findOne(id)
+  async remove(headerAuthorization: string): Promise<UserEntity> {
+
+    const extractUserId = await this.verifyExtractIDFromToken(headerAuthorization)
+
+    return this.repository.remove(extractUserId);
+  }
+
+  private async verifyExtractIDFromToken(headerAuthorization: string) {
+    const jwtExtractor = this.authService.jwtExtractor(headerAuthorization)
+
+    const extractUserId = this.authService.extractUserIdFromToken(jwtExtractor)
+
+    const userExists = await this.repository.findOne(extractUserId)
 
     if(!userExists) {
-      throw new NotFoundException('User not found!')
+      throw new UnauthorizedException('User not authorized!')
     }
 
-    return this.repository.remove(id);
+    return extractUserId
   }
 }

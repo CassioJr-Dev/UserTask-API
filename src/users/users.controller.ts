@@ -1,34 +1,42 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Headers, Res } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { Response } from 'express';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+  async create(@Body() createUserDto: CreateUserDto, @Res() res: Response) {
+    const createUser = await this.usersService.create(createUserDto);
+    return res.status(201).json(createUser)
   }
 
   @Get()
-  findAll() {
-    return this.usersService.findAll();
+  async findAll(@Res() res: Response) {
+    const findAllUsers = await this.usersService.findAll();
+    return res.status(200).json(findAllUsers)
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(id);
+  async findOne(@Param('id') id: string, @Res() res: Response) {
+    const findOneUser = await this.usersService.findOne(id);
+    return res.status(200).json(findOneUser)
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(id, updateUserDto);
+  @Patch()
+  async update(
+    @Body() updateUserDto: UpdateUserDto, 
+    @Headers('authorization') authorization: string, @Res() res: Response) {
+    const updateUser = await this.usersService.update(authorization, updateUserDto);
+    return res.status(200).json(updateUser)
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(id);
+  @Delete()
+  async remove(@Headers('authorization') authorization: string, @Res() res: Response) {
+    await this.usersService.remove(authorization);
+    return res.status(204).json()
   }
 }
