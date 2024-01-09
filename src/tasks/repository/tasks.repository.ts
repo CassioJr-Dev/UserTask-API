@@ -8,9 +8,12 @@ import { UpdateTaskDto } from "../dto/update-task.dto";
 export class TasksRepository {
     constructor(private readonly prisma: PrismaService){}
 
-    async create(createTaskDto:CreateTaskDto): Promise<TaskEntity> {
+    async create(createTaskDto:CreateTaskDto, extractUserId: string): Promise<TaskEntity> {
         return this.prisma.task.create({
-            data: createTaskDto
+            data: {
+                ...createTaskDto,
+                authorId: extractUserId
+            }
         }
         )
     }
@@ -48,6 +51,12 @@ export class TasksRepository {
         }catch(error) {
             throw new NotFoundException('Task not found!!!');
         }
+    }
+
+    async findUser(id: string) {
+        return this.prisma.user.findUnique({
+            where: { id }
+        })
     }
 
 

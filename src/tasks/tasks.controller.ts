@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Res } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Res, Headers, UseGuards } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
@@ -9,8 +9,8 @@ export class TasksController {
   constructor(private readonly tasksService: TasksService) {}
 
   @Post()
-  async create(@Body() createTaskDto: CreateTaskDto, @Res() res: Response) {
-    const createTask = await this.tasksService.create(createTaskDto);
+  async create(@Body() createTaskDto: CreateTaskDto, @Res() res: Response, @Headers('authorization') authorization: string) {
+    const createTask = await this.tasksService.create(createTaskDto, authorization);
     return res.status(201).json(createTask);
   }
 

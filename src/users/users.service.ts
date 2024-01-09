@@ -4,10 +4,14 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersRepository } from './repository/users.repository';
 import { UserEntity } from './userEntity/user.entity';
 import { hash } from 'bcryptjs'
+import { AuthService } from 'src/auth/auth.service';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly repository: UsersRepository){}
+  constructor(
+    private readonly repository: UsersRepository,
+    private readonly authService: AuthService
+    ){}
 
   async create({ name, email, password }: CreateUserDto): Promise<UserEntity> {
     const emailExists = await this.repository.emailExists(email)
@@ -15,12 +19,22 @@ export class UsersService {
     if(emailExists) {
       throw new ConflictException('Previous existence of the user with the same email!')
     }
+
     const hashedPassword = await hash(password, 10)
-    return this.repository.create({
+
+    const createUser = await this.repository.create({
       name,
       email,
       password: hashedPassword
     });
+
+    const jwtToken = await this.authService.createAccessToken(createUser.id)
+   
+    const userReturn = {
+      ...createUser,
+      jwtToken
+    }
+    return userReturn
   }
 
   async findAll(): Promise<UserEntity[]> {
