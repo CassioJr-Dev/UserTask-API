@@ -28,9 +28,9 @@ model Task {
   description String      @db.Text
   completed   Boolean     @default(false) 
   createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
-  author      User?       @relation(fields: [authorId], references: [id])
-  authorId    String?
+  updatedAt   DateTime    @updatedAt 
+  author      User       @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId    String
 
   @@map("task")
 }

@@ -1,8 +1,8 @@
-import { Injectable, NotFoundException, UnauthorizedException } from "@nestjs/common";
-import { LoginUserRepository } from "./repository/login.repository";
-import { LoginUserDto } from "./dto/login-user.dto";
-import { compare } from "bcryptjs";
-import { AuthService } from "src/auth/auth.service";
+import { Injectable, NotFoundException, UnauthorizedException } from "@nestjs/common"
+import { LoginUserRepository } from "./repository/login.repository"
+import { LoginUserDto } from "./dto/login-user.dto"
+import { compare } from "bcryptjs"
+import { AuthService } from "src/auth/auth.service"
 
 @Injectable()
 export class LoginUserService {
@@ -23,7 +23,7 @@ export class LoginUserService {
             throw new UnauthorizedException('Incorrect password!') 
         }
 
-        const jwtToken = await this.authService.createAccessToken(existsUser.id)
+        const jwtToken = this.authService.createAccessToken(existsUser.id)
    
         const userReturn = {
             id: existsUser.id,

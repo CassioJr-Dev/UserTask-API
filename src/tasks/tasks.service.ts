@@ -1,8 +1,8 @@
-import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
-import { CreateTaskDto } from './dto/create-task.dto';
-import { UpdateTaskDto } from './dto/update-task.dto';
-import { TasksRepository } from './repository/tasks.repository';
-import { AuthService } from 'src/auth/auth.service';
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common'
+import { CreateTaskDto } from './dto/create-task.dto'
+import { UpdateTaskDto } from './dto/update-task.dto'
+import { TasksRepository } from './repository/tasks.repository'
+import { AuthService } from 'src/auth/auth.service'
 
 @Injectable()
 export class TasksService {
@@ -16,23 +16,29 @@ export class TasksService {
 
     const extractUserId = await this.verifyExtractIDFromToken(headerAuthorization)
     
-    return this.repository.create(createTaskDto, extractUserId);
+    return this.repository.create(createTaskDto, extractUserId)
   }
 
   async findAll(headerAuthorization: string) {
 
     const extractUserId = await this.verifyExtractIDFromToken(headerAuthorization)
 
-    return this.repository.findAll(extractUserId);
+    const tasks = await this.repository.findAll(extractUserId)
+
+    if (tasks.length < 1) {
+      throw new NotFoundException('Tasks not found!');
+    }
+
+    return tasks
   }
 
   async findOne(id: string, headerAuthorization: string) {
     const extractUserId = await this.verifyExtractIDFromToken(headerAuthorization)
 
-    const task = await this.repository.findOne(id, extractUserId);
+    const task = await this.repository.findOne(id, extractUserId)
 
     if (!task) {
-      throw new NotFoundException('Task not found!');
+      throw new NotFoundException('Task not found!')
     }
 
     return task;
@@ -41,7 +47,7 @@ export class TasksService {
   async update(id: string, updateTaskDto: UpdateTaskDto, headerAuthorization: string) {
 
     const extractUserId = await this.verifyExtractIDFromToken(headerAuthorization)
-    return this.repository.update(id, updateTaskDto, extractUserId);
+    return this.repository.update(id, updateTaskDto, extractUserId)
   }
 
   async remove(id: string, headerAuthorization: string) {
