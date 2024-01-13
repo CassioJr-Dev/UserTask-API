@@ -27,13 +27,15 @@
     "@nestjs/mapped-types": "*",
     "@nestjs/passport": "^10.0.3",
     "@nestjs/platform-express": "^10.0.0",
+    "@nestjs/swagger": "^7.1.17",
     "@prisma/client": "^5.7.1",
     "bcryptjs": "^2.4.3",
     "class-validator": "^0.14.0",
     "jsonwebtoken": "^9.0.2",
     "nodemailer": "^6.9.8",
     "reflect-metadata": "^0.1.14",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.1",
+    "swagger-ui-express": "^5.0.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",

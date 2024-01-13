@@ -1,8 +1,9 @@
-import { PartialType } from '@nestjs/mapped-types'
+import { ApiProperty, PartialType } from '@nestjs/swagger'
 import { CreateTaskDto } from './create-task.dto'
-import { IsBoolean, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsBoolean, IsOptional } from 'class-validator'
 
 export class UpdateTaskDto extends PartialType(CreateTaskDto) {
+  @ApiProperty({ description: 'Task completed', default: false })
   @IsBoolean()
   @IsOptional()
   completed?: boolean
