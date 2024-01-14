@@ -56,10 +56,10 @@ $ npm run start:dev
 - `DELETE /tasks/:id`: Excluir uma tarefa do usuário
 
 - `POST /users`: Registrar um novo usuário e envia um email para usuario com o codigo de verificação
+- `POST /users/check-code`: Recebe o código de verificação e cria a conta do usuário
 - `GET /users`: Buscar todos usuários do sistema
 - `PATCH /users`: Atuazliar dados da conta do usuário
 - `DELETE /users`: Deletar conta do usuário
-- `POST /users/check-code`: Recebe o código de verificação e cria a conta do usuário
 - `GET /users/:id`: Buscar um usuário especifico do sistema
 
 - `POST /login`: Efetua o login do usuário
