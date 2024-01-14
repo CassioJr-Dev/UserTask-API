@@ -27,7 +27,7 @@ $ npm install
 API de planejamento de tarefas do usuário
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
-## Running the app
+## Executando a API
 
 ```bash
 # watch mode
@@ -45,7 +45,8 @@ $ npm run start:dev
 - PostgreSql
 - JWT para autenticação
 - Docker-Compose
-- Nodemailer para envio de e-mail
+- Nodemailer para envio de email
+- E outras libs especificadas no package.json
 
 ## Endpoints da API
 - `POST /tasks`: Criar tarefa do usuário
@@ -66,7 +67,7 @@ $ npm run start:dev
 - `GET /documentation`: Documetação completa da API UserTask
 
 
-## Stay in touch
+## Contatos
 
 - Author - [Cássio da Silva - Email](cassiojr0108@gmail.com)
 - Linkedin - [Cássio da Silva](https://www.linkedin.com/in/c%C3%A1ssio-da-silva-254557285?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3B9LCis3CTRxOMxGnD5MPdtg%3D%3D)
