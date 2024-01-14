@@ -45,7 +45,7 @@ export class UsersController {
 
   @ApiResponse({ status: 404, description: 'User not found!' })
   @ApiResponse({ status: 200, type: UserAnswers })
-  @ApiOperation({ summary: 'Search for a system user' })
+  @ApiOperation({ summary: 'Search for a specific system user' })
   @Get(':id')
   async findOne(@Param('id') id: string, @Res() res: Response) {
     const findOneUser = await this.usersService.findOne(id);

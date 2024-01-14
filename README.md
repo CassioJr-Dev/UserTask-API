@@ -24,52 +24,72 @@
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+## Status do Projeto
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Conluído mas com possíveis melhorias no futuro
 
-## Installation
+## Instalação
 
+1. Clone o repositório: `git clone https://github.com/CassioJr08/authentication_API_and_to-do-list.git`
+2. Instale as dependências: 
 ```bash
 $ npm install
 ```
+3. Configure as variáveis de ambiente, configure o docker file e docker compose se necessário.
+
+4. Neste projeto foi usado o Mailtrap para para testar emails em um ambiente seguro sem enviá-los aos seus destinatários em ambiente somente de testes, mas use o configure o que achar melhor.
+
+## Description
+
+API de planejamento de tarefas do usuário
+[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
 ## Running the app
 
 ```bash
-# development
-$ npm run start
-
 # watch mode
 $ npm run start:dev
-
-# production mode
-$ npm run start:prod
 ```
+## Recursos Principais
 
-## Test
+- Criação, leitura, atualização e exclusão de tarefas
+- Cadastro, autenticação e gerenciamento de usuários
 
-```bash
-# unit tests
-$ npm run test
+## Tecnologias Utilizadas
+- Node.js
+- TypeScript
+- NestJs
+- PostgreSql
+- JWT para autenticação
+- Docker-Compose
+- Nodemailer para envio de e-mail
 
-# e2e tests
-$ npm run test:e2e
+## Endpoints da API
+- `POST /tasks`: Criar tarefa do usuário
+- `GET /tasks`: Obter todas as tarefas do usuário
+- `GET /tasks/:id`: Obter uma tarefa específica do usuário
+- `PATCH /tasks/:id`: Atualizar uma tarefa existente do usuário
+- `DELETE /tasks/:id`: Excluir uma tarefa do usuário
 
-# test coverage
-$ npm run test:cov
-```
+- `POST /users`: Registrar um novo usuário e envia um email para usuario com o codigo de verificação
+- `GET /users`: Buscar todos usuários do sistema
+- `PATCH /users`: Atuazliar dados da conta do usuário
+- `DELETE /users`: Deletar conta do usuário
+- `POST /users/check-code`: Recebe o código de verificação e cria a conta do usuário
+- `GET /users/:id`: Buscar um usuário especifico do sistema
 
-## Support
+- `POST /login`: Efetua o login do usuário
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+- `GET /documentation`: Documetação completa da API UserTask
+
 
 ## Stay in touch
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+- Author - [Cássio da Silva - Email](cassiojr0108@gmail.com)
+- Linkedin - [Cássio da Silva](https://www.linkedin.com/in/c%C3%A1ssio-da-silva-254557285?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3B9LCis3CTRxOMxGnD5MPdtg%3D%3D)
+- GitHub - [CassioJr08](https://github.com/CassioJr08)
 
-## License
 
-Nest is [MIT licensed](LICENSE).
+## Licença
+Este projeto está licenciado sob a [Licença MIT](LICENSE).
+

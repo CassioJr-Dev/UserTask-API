@@ -38,7 +38,7 @@ export class TasksController {
   @ApiResponse({ status: 404, description: 'Task not found!' })
   @ApiResponse({ status: 401, description: 'User not authorized!' })
   @ApiResponse({ status: 200, type:  TaskAnswers })
-  @ApiOperation({ summary: 'Get a task from the user' })
+  @ApiOperation({ summary: 'Get a specific task from the user' })
   @Get(':id')
   async findOne(
     @Param('id') id: string, @Res() res: Response, 
@@ -50,7 +50,7 @@ export class TasksController {
   @ApiResponse({ status: 404, description: 'Task not found!' })
   @ApiResponse({ status: 401, description: 'User not authorized!' })
   @ApiResponse({ status: 200, type:  TaskAnswers })
-  @ApiOperation({ summary: 'Update a user task' })
+  @ApiOperation({ summary: 'Update an existing user task' })
   @Patch(':id')
   async update(
     @Param('id') id: string, @Body() updateTaskDto: UpdateTaskDto,
