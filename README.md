@@ -71,7 +71,7 @@ $ npm run start:dev
 
 - Author - [Cássio da Silva - Email](cassiojr0108@gmail.com)
 - Linkedin - [Cássio da Silva](https://www.linkedin.com/in/c%C3%A1ssio-da-silva-254557285?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3B9LCis3CTRxOMxGnD5MPdtg%3D%3D)
-- GitHub - [CassioJr08](https://github.com/CassioJr08)
+- GitHub - [CassioJr-Dev](https://github.com/CassioJr-Dev)
 
 
 ## Licença
